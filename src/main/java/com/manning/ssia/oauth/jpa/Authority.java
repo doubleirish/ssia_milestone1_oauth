@@ -1,6 +1,7 @@
 package com.manning.ssia.oauth.jpa;
 
 import lombok.Data;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,11 +26,17 @@ public class Authority {
     private int id;
     private String authority;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user ;
 
     public Authority() {
+    }
+
+    public Authority(String authority, User user) {
+        this.authority=authority;
+        this.user=user;
     }
 
     @Override

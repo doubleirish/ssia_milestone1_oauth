@@ -1,7 +1,7 @@
 package com.manning.ssia.oauth.jpa;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-
 import javax.persistence.*;
 
 /*
@@ -21,6 +21,8 @@ public class Grant {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
     private String grant;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "CLIENT_ID", nullable = false)
     private Client client ;
