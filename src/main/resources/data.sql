@@ -1,4 +1,4 @@
-insert into USER (ID, USERNAME, PASSWORD) values (1, 'someuser' ,'somepass');
+insert into USER (ID, USERNAME, PASSWORD) values (1, 'john' ,'12345');
 insert into USER (ID, USERNAME, PASSWORD) values (2, 'admin' ,'secret');
 INSERT INTO AUTHORITY ( USER_ID ,AUTHORITY ) values (1, 'user');
 INSERT INTO AUTHORITY ( USER_ID ,AUTHORITY ) values (2, 'admin');
