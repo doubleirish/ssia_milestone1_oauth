@@ -4,7 +4,7 @@ INSERT INTO AUTHORITY ( USER_ID ,AUTHORITY ) values (1, 'ROLE_USER');
 INSERT INTO AUTHORITY ( USER_ID ,AUTHORITY ) values (2, 'ROLE_ADMIN');
 
 insert into CLIENT (ID, NAME, SECRET, REDIRECT_URI, SCOPE)
-values (1, 'Acme Corp','secretkey' ,'http://localhost:8181/', 'user');
+values (1, 'client','secret' ,'http://localhost:8181/', 'user');
 
 insert into GRANT (CLIENT_ID, GRANT  ) values (1,  'authorization-code' );
 insert into GRANT (CLIENT_ID, GRANT  ) values (1,  'password' );

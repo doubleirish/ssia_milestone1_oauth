@@ -9,6 +9,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -21,16 +22,20 @@ public class UserControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void usersList() throws Exception {
-        String jsonStr =  this.restTemplate.getForObject("http://localhost:" + port + "/users",  String.class);
-        assertThat(jsonStr).contains("someuser");
+    public void usersListAsUser() throws Exception {
+        String jsonStr = this.restTemplate
+                .withBasicAuth("john", "12345")
+                .getForObject("http://localhost:" + port + "/users", String.class);
+        assertThat(jsonStr).contains("john");
     }
 
     @Test
     public void userById() throws Exception {
-        UserDto userDto =  this.restTemplate.getForObject("http://localhost:" + port + "/users/1",  UserDto.class);
+        UserDto userDto = this.restTemplate
+                .withBasicAuth("john", "12345")
+                .getForObject("http://localhost:" + port + "/users/1", UserDto.class);
         assertThat(userDto.getId()).isEqualTo(1);
-        assertThat(userDto.getUsername()).isEqualTo("someuser");
+        assertThat(userDto.getUsername()).isEqualTo("john");
     }
 
 
@@ -39,8 +44,10 @@ public class UserControllerTest {
         UserDto userDto = new UserDto();
         userDto.setUsername("newuser");
         userDto.setPassword("newpass");
-        userDto.setAuthorities(Arrays.asList("user","admin"));
-        UserDto returnUserDto =  this.restTemplate.postForObject("http://localhost:" + port + "/users",  userDto,UserDto.class);
+        userDto.setAuthorities(Arrays.asList("user", "admin"));
+        UserDto returnUserDto = this.restTemplate
+                .withBasicAuth("john", "12345")
+                .postForObject("http://localhost:" + port + "/users", userDto, UserDto.class);
 
         System.out.println(returnUserDto);
 
