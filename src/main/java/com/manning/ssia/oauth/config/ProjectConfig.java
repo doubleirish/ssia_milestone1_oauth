@@ -20,12 +20,12 @@ public class ProjectConfig {
         InMemoryUserDetailsManager userDetailsService = new InMemoryUserDetailsManager();
         UserDetails john = User.withUsername("john")
                 .password("12345")
-                .authorities("USER")
+                .authorities("ROLE_USER")
                 .build();
         userDetailsService.createUser(john);
-        UserDetails admin = User.withUsername("admin")
+        UserDetails admin = User.withUsername("root")
                 .password("secret")
-                .authorities("ADMIN")
+                .authorities("ROLE_ADMIN")
                 .build();
         userDetailsService.createUser(admin);
         return userDetailsService;
