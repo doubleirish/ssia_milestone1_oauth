@@ -87,4 +87,13 @@ public class CustomClientDetails implements ClientDetails {
     public Map<String, Object> getAdditionalInformation() {
         return null;
     }
+
+
+    @Override
+    public String toString() {
+        return "CustomClientDetails{" +
+                "clientId=" + getClientId() +
+                "granted-authorities=" + this.getAuthorities()  +
+                '}';
+    }
 }
