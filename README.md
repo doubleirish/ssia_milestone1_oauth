@@ -15,10 +15,10 @@ curl -u john:12345 http://localhost:8080/clients
 ## access-request using password grant 
 ```
 # can be generated from postman
-curl --location --u client:secret  -request POST \ 'localhost:8080/oauth/token?grant_type=password&username=john&password=12345&scope=read'  
+curl --location --u client:secret  -request POST  'localhost:8080/oauth/token?grant_type=password&username=john&password=12345&scope=read'  
 ```
 
-## TODO access-request using client credentials grant 
+## access-request using client credentials grant 
 ```
 curl --location -u client:secret --request POST 'http://localhost:8080/oauth/token?grant_type=client_credentials&scope=read'
 ```
