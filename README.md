@@ -1,3 +1,5 @@
+# Spring Security Authorization server
+a spring security OAUTH2 authorization server with JPA backed clients/users on a H2 DB
 
 use curl to test access to secured resources
 ```
