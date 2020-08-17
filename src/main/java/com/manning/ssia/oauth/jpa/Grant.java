@@ -2,6 +2,7 @@ package com.manning.ssia.oauth.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+
 import javax.persistence.*;
 
 /*
@@ -28,6 +29,11 @@ public class Grant {
     private Client client ;
 
     public Grant() {
+    }
+
+    public Grant(String grant, Client client) {
+        this.grant=grant;
+        this.client=client;
     }
 
     @Override

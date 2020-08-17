@@ -39,7 +39,7 @@ public class ClientRepositoryTest {
     @Test
   //  @Sql("createUser.sql")
     void findByName() {
-        Client client = clientRepository.findByName("Acme Corp");
+        Client client = clientRepository.findByName("client");
         assertThat(client).isNotNull();
         System.out.println("found client "+client);
     }

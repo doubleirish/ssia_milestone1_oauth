@@ -3,9 +3,6 @@ package com.manning.ssia.oauth.jpa;
 import lombok.Data;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.*;
 
 /*

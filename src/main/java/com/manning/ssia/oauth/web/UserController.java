@@ -9,9 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -21,10 +22,12 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*")
 public class UserController {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+          this.passwordEncoder =  passwordEncoder;
     }
 
     @GetMapping
@@ -72,7 +75,7 @@ public class UserController {
     private User convertToEntity(UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword()); // TODO hash encode this later
+        user.setPassword(this.passwordEncoder.encode(userDto.getPassword())); // TODO hash encode this later
 
         List<Authority> authorities = userDto.getAuthorities()
                 .stream()

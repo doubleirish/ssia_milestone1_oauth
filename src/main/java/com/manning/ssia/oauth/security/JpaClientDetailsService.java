@@ -2,13 +2,8 @@ package com.manning.ssia.oauth.security;
 
 import com.manning.ssia.oauth.jpa.Client;
 import com.manning.ssia.oauth.jpa.ClientRepository;
-import com.manning.ssia.oauth.jpa.User;
-import com.manning.ssia.oauth.jpa.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
@@ -29,6 +24,7 @@ public class JpaClientDetailsService implements ClientDetailsService {
             throw new ClientRegistrationException(clientName);
         }
         CustomClientDetails clientDetails= new CustomClientDetails(client);
+
         log.info("found clientDetails {}",clientDetails);
         return clientDetails;
     }

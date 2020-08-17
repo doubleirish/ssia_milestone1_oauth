@@ -1,10 +1,6 @@
 package com.manning.ssia.oauth.config;
 
-import com.manning.ssia.oauth.security.JpaClientDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -17,7 +13,6 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 
 @Configuration
 @EnableAuthorizationServer
@@ -32,32 +27,34 @@ public class AuthServerConfig2
     private AuthenticationManager authenticationManager;
 
 
-    @Resource
-    private ClientDetailsService jpaClientDetailsService;
+    @Resource(name = "jpaClientDetailsService")
+    private ClientDetailsService clientDetailsService;
 
 
 
-    @Override
-    public void configure( ClientDetailsServiceConfigurer clients)  throws Exception {
-
-
-        clients.inMemory()
-                .withClient("client")
-                .secret("secret")
-                .authorizedGrantTypes("password", "refresh-token","authorization-code","client-credentials")
-                .authorities("ROLE_CLIENT")
-                .scopes( "read","trust");
-    }
+//    @Override
+//    public void configure( ClientDetailsServiceConfigurer clients)  throws Exception {
+//        clients.inMemory()
+//                .withClient("client")
+//                .secret("{noop}secret")
+//                .authorizedGrantTypes("password", "refresh_token","authorization_code","client_credentials")
+//                .authorities("ROLE_CLIENT")
+//                .redirectUris("http://localhost:8080/authorized")
+//                .scopes( "read","trust");
+//    }
 
     @Override
     public void configure(  AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints
-                .authenticationManager(authenticationManager)
+        endpoints.authenticationManager(this.authenticationManager)
                 .tokenStore(tokenStore())
-                .accessTokenConverter( jwtAccessTokenConverter());
+                .accessTokenConverter(jwtAccessTokenConverter());
     }
 
 
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.withClientDetails(clientDetailsService);
+    }
     public TokenStore tokenStore() {
         return new JwtTokenStore( jwtAccessTokenConverter());
     }

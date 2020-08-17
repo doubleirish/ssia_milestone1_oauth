@@ -1,6 +1,5 @@
 package com.manning.ssia.oauth.security;
 
-import com.manning.ssia.oauth.jpa.Authority;
 import com.manning.ssia.oauth.jpa.Client;
 import com.manning.ssia.oauth.jpa.Grant;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class CustomClientDetails implements ClientDetails {
 
-    private Client client;
+    private final Client client;
 
     public CustomClientDetails(Client client) {
         this.client =client;
@@ -51,20 +50,19 @@ public class CustomClientDetails implements ClientDetails {
 
     @Override
     public Set<String> getAuthorizedGrantTypes() {
-        return null;
+        return client.getGrants().stream()
+                .map(Grant::getGrant)
+                .collect(Collectors.toSet());
     }
 
     @Override
     public Set<String> getRegisteredRedirectUri() {
-        return new HashSet<>(Arrays.asList(client.getRedirectUri()));
+        return new HashSet<>(Collections.singletonList(client.getRedirectUri()));
     }
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
+       return Collections.singletonList(new SimpleGrantedAuthority("ROLE_CLIENT"));
 
-        return client.getGrants().stream()
-                .map(Grant::getGrant)
-                .map(grant -> new SimpleGrantedAuthority(grant))
-                .collect(Collectors.toList());
 
     }
 
@@ -93,7 +91,8 @@ public class CustomClientDetails implements ClientDetails {
     public String toString() {
         return "CustomClientDetails{" +
                 "clientId=" + getClientId() +
-                "granted-authorities=" + this.getAuthorities()  +
+                "getAuthorizedGrantTypes=" + this.getAuthorizedGrantTypes()  +
+                "authorities=" + this.getAuthorities()  +
                 '}';
     }
 }

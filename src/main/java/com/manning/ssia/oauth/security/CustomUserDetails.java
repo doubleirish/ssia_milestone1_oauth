@@ -1,7 +1,6 @@
 package com.manning.ssia.oauth.security;
 
 import com.manning.ssia.oauth.jpa.Authority;
-import com.manning.ssia.oauth.jpa.Grant;
 import com.manning.ssia.oauth.jpa.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

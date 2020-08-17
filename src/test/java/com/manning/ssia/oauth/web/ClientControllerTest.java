@@ -23,28 +23,30 @@ public class ClientControllerTest {
     @Test
     public void clients() throws Exception {
         String jsonStr =  this.restTemplate.getForObject("http://localhost:" + port + "/clients",  String.class);
-        assertThat(jsonStr).contains("acme");
+        assertThat(jsonStr).contains("client");
     }
 
     @Test
     public void clientById() throws Exception {
-        UserDto userDto =  this.restTemplate.getForObject("http://localhost:" + port + "/clients/1",  UserDto.class);
-        assertThat(userDto.getId()).isEqualTo(1);
-        assertThat(userDto.getUsername()).isEqualTo("acme");
+        ClientDto clientDto =  this.restTemplate.getForObject("http://localhost:" + port + "/clients/1",  ClientDto.class);
+
+        assertThat(clientDto.getName()).isEqualTo("client");
     }
 
 
     @Test
     public void createClient() throws Exception {
-        UserDto userDto = new UserDto();
-        userDto.setUsername("newuser");
-        userDto.setPassword("newpass");
-        userDto.setAuthorities(Arrays.asList("user","admin"));
-        UserDto returnUserDto =  this.restTemplate.postForObject("http://localhost:" + port + "/clients",  userDto,UserDto.class);
+        ClientDto clientDto = new ClientDto();
+        clientDto.setName("newclient");
+        clientDto.setSecret("newpass");
+        clientDto.setScope("read");
+        clientDto.setGrants(Arrays.asList("user","admin","read"));
+        clientDto.setRedirectUri("http://localhost:8080/authorized");
+        ClientDto returnClientDto =  this.restTemplate.postForObject("http://localhost:" + port + "/clients",  clientDto,ClientDto.class);
 
-        System.out.println(returnUserDto);
+        System.out.println(returnClientDto);
 
-        assertThat(returnUserDto.getUsername()).isEqualTo(userDto.getUsername());
+        assertThat(returnClientDto.getName()).isEqualTo(clientDto.getName());
     }
 
 }
